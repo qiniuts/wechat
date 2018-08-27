@@ -18,7 +18,7 @@ type Message struct {
 	ToParty string   `json:"toparty"`
 	ToTag   string   `json:"totag"`
 	MsgType string   `json:"msgtype"`
-	AgentId string   `json:"agentid"`
+	AgentId int      `json:"agentid"`
 	Safe    int      `json:"safe"`
 	Text    MsgText  `json:"text, omitempty"`
 	Image   MsgImage `json:"image, omitempty"`
@@ -41,8 +41,23 @@ type MsgRet struct {
 	InvalidTag   string `json:"invalidtag"`
 }
 
+func (w *WechatWork) SendText(user, party, tag, txt string) (MsgRet, error) {
+
+	msg := Message{
+		ToUser:  user,
+		ToParty: party,
+		ToTag:   tag,
+		MsgType: "text",
+		Text: MsgText{
+			Content: txt,
+		},
+	}
+
+	return w.Send(msg)
+}
+
 //https://work.weixin.qq.com/api/doc#10167
-func (w *WechatWork) SendText(msg Message) (ret MsgRet, err error) {
+func (w *WechatWork) Send(msg Message) (ret MsgRet, err error) {
 
 	url1, err := w.msgSendAddr()
 	if err != nil {
