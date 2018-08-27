@@ -1,4 +1,4 @@
-package wechatwork
+package wechat
 
 import (
 	"fmt"

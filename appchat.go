@@ -1,4 +1,4 @@
-package wechatwork
+package wechat
 
 //https://work.weixin.qq.com/api/doc#10167
 //https://work.weixin.qq.com/api/doc#13288

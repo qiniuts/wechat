@@ -1,4 +1,4 @@
-package wechatwork
+package wechat
 
 type MessageType string
 
