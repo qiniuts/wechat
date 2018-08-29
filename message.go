@@ -63,6 +63,7 @@ func (w *WechatWork) Send(msg Message) (ret MsgRet, err error) {
 	if err != nil {
 		return
 	}
+	msg.AgentId = w.agentId
 
 	err = w.Client.CallWithJson(nil, &ret, "POST", url1, msg)
 	return
