@@ -1,13 +1,14 @@
 package wechat
 
+
 //https://work.weixin.qq.com/api/doc#10167
 //https://work.weixin.qq.com/api/doc#13288
 type AppChatMsg struct {
 	ChatId  string      `json:"chatid"`
 	MsgType MessageType `json:"msgtype"`
 	Safe    int         `json:"safe"`
-	Text    MsgText     `json:"text, omitempty"`
-	Image   MsgImage    `json:"image, omitempty"`
+	Text    *MsgText     `json:"text, omitempty"`
+	Image   *MsgImage    `json:"image, omitempty"`
 }
 
 type AppChatRet struct {
@@ -16,7 +17,17 @@ type AppChatRet struct {
 	ChatId  string `json:"chatid"`
 }
 
-func (w *WechatWork) AppChatText(msg AppChatMsg) (ret AppChatRet, err error) {
+func (w *WechatWork) AppChatText(chatId, msgTxt string) (ret AppChatRet, err error) {
+	msg := AppChatMsg{
+		ChatId: chatId,
+		MsgType: MsgTypeText,
+		Safe: 0,
+		Text: &MsgText{msgTxt},
+	}
+	return w.AppChat(msg)
+}
+
+func (w *WechatWork) AppChat(msg AppChatMsg) (ret AppChatRet, err error) {
 	url1, err := w.appchatSendAddr()
 	if err != nil {
 		return
